@@ -1,0 +1,146 @@
+
+/*  文字颜色 */
+.color-primary{
+	color: #ffa4a3;
+}
+.color-6{
+    color: #666;
+}
+.color-9{
+    color: #999;
+}
+/* 背景色 */
+.bg-primary{
+    background-color: #ffa4a3;
+}
+.bg-f2{
+    background-color: #f2f2f2;
+}
+.bg-f5{
+    background-color: #f5f5f5;
+}
+.bg-f7{
+	background-color: #f7f7f7;
+}
+.bg-f9{
+    background-color: #f9f9f9;
+}
+.bg-start{
+    background-color: #67cf80;
+}
+.bg-y{
+    background-color: #ffc732;
+}
+/* border */
+.border-primary{
+    border: 1px solid #ffa4a3;
+}
+.border-lt{
+    border-left: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0;
+}
+.border-rb{
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.border-bottom{
+    border-bottom: 1px solid #f0f0f0;
+}
+.border-f0{
+    border: 1px solid #f0f0f0;
+}
+.border-c{
+    border: 1px solid #ccc;
+}
+/* btn */
+.btn-disable{
+    cursor: not-allowed;
+}
+.btn-base{
+    height: 28px;
+    text-align: center;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid #ccc;
+}
+/* 图片 */
+.good-img{
+    width: 100%;
+    height: 100%;
+}
+/* 超出显示省略号 */
+.ellipsis-1{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.ellipsis-2{
+    position: relative;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+/* */
+.center-box{
+    width: 1250px;
+    margin: 0px auto;
+}
+.logo{
+    float: left;
+    width: 338px;
+    height: 98px;
+    margin-top: 10px;
+    background: url(../img/common/logo.png) no-repeat;
+    background-size: cover;
+}
+/* title-slider*/
+.title-slider{
+    font-size: 20px;
+    margin: 0px auto;
+}
+.title-slider:before{
+    margin-right: 10px;
+}
+.title-slider:after{
+    margin-left: 10px;
+}
+.title-slider:before,.title-slider:after{
+    content: '';
+    display: inline-block;
+    width: 72px;
+    height: 1px;
+    background-color: #d8d4d3;
+    vertical-align: middle;
+}
+/* 图标 */
+.icon{
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+/* 选中打√ */
+.icon-checked{
+    position: relative;
+    border: 1px solid #ffa4a3;
+}
+.icon-checked:after{
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 10px;
+    right: 0px;
+    bottom: 0px;
+    background: url('../img/common/checked.png') no-repeat;
+    background-size: cover;
+}
+.icon-c-slide{
+    width: 22px;
+    height: 8px;
+    margin-right: 10px;
+    background-image: url('../../../static/img/common/icon-c-slide.png');
+}
