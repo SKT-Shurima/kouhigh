@@ -9,6 +9,9 @@
 .color-9{
     color: #999;
 }
+.color-lan{
+    color: #47aaee;
+}
 /* 背景色 */
 .bg-primary{
     background-color: #ffa4a3;
@@ -52,6 +55,9 @@
 .border-c{
     border: 1px solid #ccc;
 }
+.border-d{
+    border: 1px solid #ddd;
+}
 /* btn */
 .btn-disable{
     cursor: not-allowed;
@@ -87,11 +93,12 @@
     width: 1250px;
     margin: 0px auto;
 }
-.logo{
+#logo{
     float: left;
     width: 338px;
     height: 98px;
     margin-top: 10px;
+    cursor: pointer;
     background: url(../img/common/logo.png) no-repeat;
     background-size: cover;
 }
@@ -117,8 +124,8 @@
 /* 图标 */
 .icon{
 	display: inline-block;
-	width: 14px;
-	height: 14px;
+	width: 16px;
+	height: 16px;
 	vertical-align: middle;
 	background-size: contain;
 	background-repeat: no-repeat;

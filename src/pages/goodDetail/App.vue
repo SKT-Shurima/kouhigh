@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-		<v-head-slider></v-head-slider>
+		<v-head-slider :user-info='userInfo'></v-head-slider>
 		<v-search></v-search>
 		<v-navs :navs='navs'></v-navs>
 		<v-good-info :goods='goods' :comment='comment'></v-good-info>
@@ -30,6 +30,7 @@
 	import vFooter from  '../../common/Footer';
 	import {postReq} from '../../assets/js/api';
 	import {errorInfo} from '../../assets/js/check';
+	import userMixin from '../../assets/js/userMixin';
     export default {
     	data(){
     		return{
@@ -53,6 +54,7 @@
     	components:{
     		vHeadSlider,vSearch,vNavs,vGoodInfo,vCoupon,vHotSale,vGuessLike,vFooter
     	},
+    	mixins: [userMixin],
     	methods:{
     		getDetail(){
     			let params = {
@@ -68,7 +70,7 @@
 						this.like = content.like;
 						this.hot = content.hot;
 					}else {
-						errorRes(errcode,message);
+						errorInfo(errcode,message);
 					}
     			})
     		}

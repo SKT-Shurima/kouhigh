@@ -62,7 +62,7 @@
 					if(errcode == 0){
 						this.category = content.category;
 					}else {
-						errorRes(errcode,message);
+						errorInfo(errcode,message);
 					}
 				})
 			}

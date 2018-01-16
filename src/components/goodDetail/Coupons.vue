@@ -74,7 +74,7 @@ import {MessageBox} from  'element-ui';
 					if(errcode == 0){
 						this.couponsList = content.coupon;
 					}else {
-						errorRes(errcode,message);
+						errorInfo(errcode,message);
 					}
 				})
 			}

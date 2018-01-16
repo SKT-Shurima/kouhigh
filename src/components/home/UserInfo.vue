@@ -3,14 +3,13 @@
 		<div class="info-box">
 			<dl>
 				<dt>
-					<img src="../../../static/img/common/avaterDefault.jpg" v-if='false'>
-					<img src="" v-else>
+					<img :src="userInfo.portrait" v-if='userInfo.portrait'>
+					<img src="../../../static/img/common/avaterBig.jpg" v-else>
 				</dt>
-				<dd>
-					<span>Hi,您好！{{}}</span>
-				</dd>
+				<dd v-if='Object.keys(userInfo).length'>Hi,您好！</dd>
+				<dd v-else>Hi,{{userInfo.nickname}}</dd>
 			</dl>
-			<div class="bg-f2 btn-box" v-if='false'>
+			<div class="bg-f2 btn-box" v-if='!Object.keys(userInfo).length'>
 				<div>
 					<a href="login.html">
 						<el-button type='text' size='small'>登录</el-button>
@@ -25,11 +24,11 @@
 			<div class="info" v-else>
 				<el-row class='info-money'>
 					<el-col :span='12'>
-						<div class="color-primary">100</div>
+						<div class="color-primary" v-text='userInfo.balance'></div>
 						<div>余额</div>
 					</el-col>
 					<el-col :span='12'>
-						<div class="color-primary">200</div>
+						<div class="color-primary" v-text='userInfo.integral'></div>
 						<div>积分</div>
 					</el-col>
 				</el-row>
@@ -46,19 +45,19 @@
 					<el-row class='order-menu'>
 						<el-col :span='6' >
 						    <a href=''>待付款</a>
-							<i class="bg-primary">{{1}}</i>
+							<i class="bg-primary">{{orderInfo.wait_pay | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待发货</a>
-							<i class="bg-primary">{{2}}</i>
+							<i class="bg-primary">{{orderInfo.wait_send | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待收货</a>
-							<i class="bg-primary">{{3}}</i>
+							<i class="bg-primary">{{orderInfo.wait_receive | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待评价</a>
-							<i class="bg-primary">{{4}}</i>
+							<i class="bg-primary">{{orderInfo.wait_comment | num_filter}}</i>
 						</el-col>
 					</el-row>
 				</el-row>
@@ -83,7 +82,27 @@
 	</div>
 </template>
 <script>
+	import {num_filter} from '../../assets/js/filter';
 	export default{
+		filters: {
+			num_filter
+		},
+		props:{
+			userInfo: {
+				type: Object,
+				required: true,
+				default: function(){
+					return {}
+				}
+			},
+			orderInfo: {
+				type: Object,
+				required: true,
+				default: function(){
+					return {}
+				}
+			},
+		},
 		methods:{
 		}
 	}

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {errorRes} from './check';
 // 测试
 let base = process.env.API_ROOT;
 export {base};

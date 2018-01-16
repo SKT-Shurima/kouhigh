@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<v-head-slider></v-head-slider>
+		<v-head-slider :user-nav='false' :user-info='userInfo'></v-head-slider>
 		<div class='logo-wrap'>
 			<div class='center-box'>
-				<div class='logo'></div>
+				<div id='logo' onclick='_back()'></div>
 			</div>
 		</div>
 		<div class="login-wrap">
@@ -44,7 +44,7 @@
 					<div class="select-box">
 						<el-checkbox  v-model='remember'>记住密码</el-checkbox>
 						<div style="float: right;">
-							<a href="rePassword.html" style="color:#000;">忘记密码</a>
+							<a href="forgetPassword.html" style="color:#000;">忘记密码</a>
 							<a href="reg.html" style="color: #f24450;margin-left:10px;">免费注册</a>
 						</div>
 					</div>
@@ -55,10 +55,13 @@
 						<div class="title-slider color-9" style="font-size:12px;">使用合作账号登录</div>
 						<div class="partners">
 							<a href="https://graph.qq.com/oauth/show?which=Login&display=pc&response_type=code&client_id=101408899&redirect_uri=http%3A%2F%2Fshuaibo.zertone1.com%2Fweb%2FcustomerAction%2FqqWebLogin">
-								<img src='../../../static/img/login/qq.png' height="20" width="20" alt="QQ">
+								<img src='../../../static/img/login/facebook.png' height="30" width="30" alt="facebook">
+							</a>
+							<a href="https://graph.qq.com/oauth/show?which=Login&display=pc&response_type=code&client_id=101408899&redirect_uri=http%3A%2F%2Fshuaibo.zertone1.com%2Fweb%2FcustomerAction%2FqqWebLogin">
+								<img src='../../../static/img/login/weixin.png' height="30" width="30" alt="facebook">
 							</a>
 							<a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx06db8000a8ef09e3&redirect_uri=http%3A%2F%2Fshuaibo.zertone1.com%2Fweb%2FcustomerAction%2FwebWeixinLogin&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect 
-	"><img src="../../../static/img/login/wexin.png" height="20" width="20" alt="wexin"></a>
+	"><img src="../../../static/img/login/weibo.png" height="30" width="30" alt="weibo"></a>
 						</div>
 					</div>
 				</div>
@@ -70,6 +73,7 @@
 <script>
 	import vHeadSlider from '../../common/HeadSlider';
 	import vBaseFooter from '../../common/BaseFooter';
+	import userMixin from '../../assets/js/userMixin';
 	export default {
 		data(){
 			return {
@@ -86,6 +90,7 @@
 		components: {
 			vHeadSlider,vBaseFooter
 		},
+		mixins: [userMixin],
 		methods:{
 			loginFn(){
 				let params = {
@@ -292,9 +297,9 @@
 			padding: 0px 6px;
 		}
 		.partners{
-			width: 152px;
-			height: 20px;
-			margin: 16px auto 0px;
+			width: 160px;
+			height: 30px;
+			margin: 10px auto 0px;
 			overflow: hidden;
 			text-align: center;
 			img{

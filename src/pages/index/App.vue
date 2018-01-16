@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-		<v-head-slider></v-head-slider>
-		<v-search></v-search>
+		<v-head-slider :user-info='userInfo'></v-head-slider>
+		<v-search :cart-goods='cartGoods' :cart-total='cartTotal'></v-search>
 		<v-navs :navs='navs' :cate-show='true'></v-navs>
 		<div class="center-box" style="height: 500px;">
 			<!-- 首页轮播 -->
@@ -26,7 +26,7 @@
 				</dd>
 			</dl>
 			<!-- 用户信息 -->
-			<v-user-info style='float: right;'></v-user-info>
+			<v-user-info style='float: right;' :user-info='userInfo' :orderInfo='orderInfo'></v-user-info>
 		</div>
 		<div class='center-box ad-box'>
 			<img src="">
@@ -46,6 +46,7 @@
 			<v-base-theme></v-base-theme>
 			<v-base-theme></v-base-theme>
 		</div>
+		<v-slider :user-info='userInfo'></v-slider>
 		<v-footer></v-footer>
   	</div>
 </template>
@@ -57,7 +58,10 @@
 	import vGoodList from '../../common/GoodList';
 	import vTimeTheme from '../../components/home/TimeTheme';
 	import vBaseTheme from '../../components/home/BaseTheme';
+	import vSlider from '../../common/Slider';
 	import vFooter from  '../../common/Footer';
+	import userMixin from '../../assets/js/userMixin';
+	import shopMixin from '../../assets/js/shopMixin';
     export default {
     	data(){
     		return{
@@ -74,8 +78,9 @@
     		}
     	},
     	components:{
-    		vHeadSlider,vSearch,vNavs,vUserInfo,vGoodList,vTimeTheme,vBaseTheme,vFooter
-    	}
+    		vHeadSlider,vSearch,vNavs,vUserInfo,vGoodList,vTimeTheme,vBaseTheme,vSlider,vFooter
+    	},
+    	mixins: [userMixin,shopMixin]
     }
 </script>
 <style type="text/css" lang='scss' scoped>

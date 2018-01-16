@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <v-head-slider></v-head-slider>
+        <v-head-slider :user-info='userInfo'></v-head-slider>
         <v-search></v-search>
         <v-navs :navs='navs'></v-navs>
         <div class="center-box container">
@@ -17,10 +17,11 @@
     import vHeadSlider from '../../common/HeadSlider';
     import vSearch from '../../common/Search';
     import vNavs from '../../common/Nav';
-    import vGoods from '../../components/RelatedGoods/Goods';
+    import vGoods from '../../components/relatedGoods/Goods';
     import vFooter from  '../../common/Footer';
     import {postReq} from '../../assets/js/api';
     import {errorInfo} from '../../assets/js/check';
+    import userMixin from '../../assets/js/userMixin';
     export default {
         data(){
             return{
@@ -34,7 +35,8 @@
         },
         components:{
             vHeadSlider,vSearch,vNavs,vGoods,vFooter
-        }
+        },
+        mixins: [userMixin]
     }
 </script>
 <style type="text/css" lang='scss' scoped>

@@ -1,9 +1,7 @@
 <template>
 	<div>
 		<div class="search-wrap center-box">
-			<div class="logo">
-				<a href="index.html"></a>
-			</div>
+			<div id='logo' onclick='_back()'></div>
 			<div class="search-box">
 				<div class="border-primary search-form">
 					<form id="searchForm" name="searchForm" method="get" action="relatedGoods.html">
@@ -18,16 +16,52 @@
 			</div>
 			 <div class="border-primary color-primary shopping-cart" @mouseenter='cartBol=true' @mouseleave='cartBol=false'>
 				<a href="">
-					<img src="" height="14" width="14" style="vertical-align:-2px;">
+					<i class="icon icon-shopping"></i>
 					我的购物车
+					<span  class='cart-btn' v-text='0'></span>
 				</a>
+				<div class="cart-box" v-show='cartBol' @mouseenter='cartBol=true' @mouseleave='cartBol=false'>
+				    <div class="border-c shop-list-box" v-if='cartGoods.length'>
+				    	<ul class="shop-list">
+							<li v-for='(item,index) in cartGoods' :key='index'>
+								<dl class="goods-info">
+									<dt>
+										<a href="goodsDetail.html?goods_id=${item.goods_id}">
+											<img :src="item.cover" class='good-img'>
+										</a>
+									</dt>
+									<dd>
+										<div class="ellipsis-1 color-6 show-info" v-text='item.name'></div>
+										<div class="sell-info">
+											<span>${{item.price}}</span><i class='icon icon-remove' @click="remove(item.cart_id)"></i>
+										</div>
+									</dd>
+								</dl>
+							</li>
+						</ul>
+						<dl class="check-cart">
+							<dt style="overflow: hidden;padding:6px 10px;">
+								<span style="float:left;" class='color-6'>共<i class='color-primary' v-text='cartGoods.length'></i>件商品</span>
+								<em style="float:right;">合计<i class='color-primary'>${{cartTotal}}</i></em>
+							</dt>
+							<dd>
+								<button class='bg-y account-btn'>
+									<a href="myOrder.html#vip3">去购物车结算</a>
+								</button>
+							</dd>
+						</dl>
+				    </div>
+					<div class="border-c no-cart" v-else>
+				   		暂无商品
+				   	</div>
+				</div>
 			 </div> 
 		</div>
 	</div>
 </template>
 <script>
 	import {postReq} from '../assets/js/api';
-	import {errorRes} from '../assets/js/check';
+	import {errorInfo} from '../assets/js/check';
 	export default{
 		data(){
 			return{
@@ -36,14 +70,50 @@
 				hots: []
 			}
 		},
+		props: {
+			cartGoods: {
+				type: Array,
+				required: true,
+				default: function(){
+					return []
+				}
+			},
+			cartTotal: {
+				type: Number,
+				default: 0
+			}
+		},
 		methods:{
+			remove(id){
+				MessageBox.confirm('是否删除该商品?', '提示', {
+		            confirmButtonText: '确定',
+		            cancelButtonText: '取消',
+		            type: 'warning'
+		        }).then(() => {
+		            let params ={
+						token: getCookie('token'),
+						cart_ids: id
+					}
+					postReq('/cart/delCarts',params).then(res=>{
+						let {errcode,message,content} = res ;
+						if(errcode == 0){
+							this.$parent.getCart();
+						}else {
+							errorInfo(errcode,message);
+						}
+					})
+		        }).catch(() => {
+                    
+		        });
+				
+			},
 			getHots(){
 				postReq('/search/getHotSearch',{}).then(res=>{
 					let {errcode,message,content} = res ;
 					if(errcode == 0){
 						this.hots = content.hot;
 					}else {
-						errorRes(errcode,message);
+						errorInfo(errcode,message);
 					}
 				})
 			}
@@ -102,6 +172,16 @@
 			cursor: pointer;
 		}
 	}
+	.icon-shopping{
+		background-image: url(../../static/img/common/shopping.png);
+	}
+	.icon-remove{
+		float: right;
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		background-image: url(../../static/img/common/remove.png);
+	}
 	.shopping-cart{
 		position: relative;
 		width: 150px;
@@ -120,10 +200,13 @@
 	}
 	.cart-box{
 		position: relative;
+		width: 200px;
+	    top: -3px;
+	    left: -2px;
 		.no-cart,.shop-list{
 			overflow: hidden;
-			width: 240px;
-			padding: 0px 14px;
+			width: 200px;
+			padding: 0px 10px;
 			background-color: #fff;
 		}
 		.no-cart{
@@ -137,10 +220,12 @@
 	}
 	.shop-list-box{
 		position: absolute;
-		top: 8px;
-		right: -1px;
-		overflow-y: scroll;
-		z-index: 100;
+	    top: 8px;
+	    right: -1px;
+	    max-height: 300px;
+	    padding-bottom: 20px;
+	    overflow-y: scroll;
+	    z-index: 100;
 		.check-cart{
 			height: 72px;
 			line-height: 30px;
@@ -151,36 +236,29 @@
 	.shop-list{
 		li{
 			width: 100%;
-			height: 80px;
+			height: 60px;
 			padding: 10px 0px;
 			border-bottom: 1px solid #ccc;
 		}
 		.goods-info{
-			width: 100%;
-			height: 80px;
 			overflow: hidden;
 			dt{
 				float: left;
-				width: 60px;
-				height: 60px;
-				img{
-					width: 100%;
-					height: 100%;
-					cursor: pointer;
-				}
+				width: 36px;
+				height: 36px;
+				cursor: pointer;
 			}
 			dd{
 				float: left;
-				width: 136px;
-				height: 60px;
+				width: 132px;
 				margin-left: 10px;
-				color: #000;
 			}
 		}
 		.show-info{
-			line-height: 18px;
-			height: 36px;
-			overflow: hidden;
+			line-height: 14px;
+			height: 14px;
+			font-size: 14px;
+			text-align: left;
 		}
 		.sell-info{
 			overflow: hidden;
@@ -195,6 +273,16 @@
 				cursor: pointer;
 				color: #ffa4a3;
 			}
+		}
+	}
+	.account-btn{
+		display: inline-block;
+		width: 110px;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 15px;
+		a{
+			color: #fff;
 		}
 	}
 </style>

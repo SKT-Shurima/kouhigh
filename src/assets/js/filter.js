@@ -1,15 +1,23 @@
+
+// 数字超过9显示省略号
+export const num_filter = val =>{
+    val = val?val-0:0;
+     if (val > 9 ) {
+        return "9+"
+     }else{
+      return val;
+     }
+}
 // 年月
 export const dateYM = time =>{
-	time -= 0;
     time *= 1000 
     var newDate = new Date(time);
     let {y,m,d}={y:newDate.getFullYear(),m:newDate.getMonth()+1,d:newDate.getDate()};
-    y = trans(y);
     m = trans(m);
-    return `${y}年${m}月` ;
+    d = trans(d);
+    return `${y}年${m}月${d}号`;
 }
 export const dateym = time =>{
-	time -= 0;
     time *= 1000 
     var newDate = new Date(time);
     let {y,m,d}={y:newDate.getFullYear(),m:newDate.getMonth()+1,d:newDate.getDate()};
@@ -18,7 +26,6 @@ export const dateym = time =>{
     return `${y}-${m}` ;
 }
 export const dateymd = time =>{
-    time -= 0;
     time *= 1000 
     var newDate = new Date(time);
     let {y,m,d}={y:newDate.getFullYear(),m:newDate.getMonth()+1,d:newDate.getDate()};
@@ -29,13 +36,22 @@ export const dateymd = time =>{
 }
 // 时分秒
 export const timeHMS = time =>{
-    time -= 0;
+    time *= 1000
     var newDate = new Date(time);
     let {h,m,s}={h:newDate.getHours(),m:newDate.getMinutes(),s:newDate.getSeconds()};
     h = trans(h);
     m = trans(m);
     s = trans(s);
     return h +':' + m + ':' + s;
+}
+export const timeHM = time =>{
+    time *= 1000
+    var newDate = new Date(time);
+    let {h,m,s}={h:newDate.getHours(),m:newDate.getMinutes(),s:newDate.getSeconds()};
+    h = trans(h);
+    m = trans(m);
+    s = trans(s);
+    return h +':' + m ;
 }
 // 年月日 时分
 export const dateTime = time =>{

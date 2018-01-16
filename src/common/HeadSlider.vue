@@ -2,16 +2,16 @@
 	<div class="bg-f7 head-wrap">
 		<dl class='head-box center-box'>
 			<dt class='color-6' v-if='Object.keys(userInfo).length'>
-				Hi,{{}}
+				Hi,{{userInfo.nickname}}
 			</dt>
 			<dt v-else>
 				<a href="login.html" class='color-6'>[登录]</a>
 				<a href="reg.html" class='color-6'>[免费注册]</a>
 			</dt>
 			<dd>
-				<div class="nav-item"><a href="" class='color-6'>我的订单</a>|</div>
-				<div class='nav-item col-wrap' @mouseenter='followBol=true' @mouseleave='followBol=false'>
-					<a href="javascript:void(0)" class='color-6'>我的收藏<i class='icon icon-down'></i></a>|
+				<div class="nav-item" v-show='userNav'><a href="personCenter.html" class='color-6'>我的订单</a><em class='color-9'>|</em></div>
+				<div class='nav-item col-wrap' v-show='userNav'  @mouseenter='followBol=true' @mouseleave='followBol=false'>
+					<a href="javascript:void(0)" class='color-6'>我的收藏<i class='icon icon-down'></i></a><em class='color-9'>|</em>
 					<div class='border-f0 col-list' @mouseenter='followBol=true' @mouseleave='followBol=false' v-show='followBol'>
 						<div v-if='collection.length'>
 							<ul>
@@ -42,14 +42,14 @@
 					</div>
 				</div>
 				<div class='nav-item col-wrap'  @mouseenter='serviceBol=true' @mouseleave='serviceBol=false'>
-					<a href="javascript:void(0)" class='color-6'>客户服务<i class='icon icon-down'></i></a>|
+					<a href="javascript:void(0)" class='color-6'>客户服务<i class='icon icon-down'></i></a><em class='color-9'>|</em>
 					<ul class='border-f0 service-list' @mouseenter='serviceBol=true' @mouseleave='serviceBol=false' v-show='serviceBol'>
 						<li><a href="" class='color-6'>销售客服</a></li>
 						<li><a href="" class='color-6'>购买建议</a></li>
 					</ul>
 				</div>
 				<div class='nav-item col-wrap'  @mouseenter='codeBol=true' @mouseleave='codeBol=false'>
-					<a href="javascript:void(0)" class='color-6'><i class='icon icon-down'></i>手机Kouhigh</a>|
+					<a href="javascript:void(0)" class='color-6'><i class='icon icon-phone'></i>手机Kouhigh</a><em class='color-9'>|</em>
 					<div class='border-f0 appcode-wrap' @mouseenter='codeBol=true' @mouseleave='codeBol=false' v-show='codeBol'>
 						<div class='app-code'></div>
 						<div class='color-6' style="line-height:20px;font-size: 12px;">扫一扫下载 KouHigh App</div>
@@ -64,17 +64,29 @@
 	export default {
 		data(){
 			return{
-				userInfo: {},
 				collection: [],
 				followBol: false,
 				serviceBol: false,
 				codeBol: false
 			}
 		},
+		props:{
+			userNav: {
+				type: Boolean,
+				default: true
+			},
+			userInfo: {
+				type: Object,
+				required: true,
+				default: function(){
+					return {}
+				}
+			}
+		},
 		methods:{
 			getCol(){
 				let params = {
-					token: token,
+					token: getCookie('token'),
 					page: 1
 				}
 				postReq('/customer/getCollections',params).then(res=>{
@@ -82,7 +94,7 @@
 					if(errcode == 0){
 						this.collection = content.collection;
 					}else {
-						errorRes(errcode,message);
+						errorInfo(errcode,message);
 					}
 				})
 			}
@@ -127,6 +139,9 @@
 		margin-left: 6px;
 		background-image: url(../../static/img/common/down.png);
 		transition: all .3s;
+	}
+	.icon-phone{
+		background-image: url(../../static/img/common/phone.png);
 	}
 	.col-wrap{
 		position: relative;

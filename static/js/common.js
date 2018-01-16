@@ -47,3 +47,7 @@ function escape2Html(a) {
     return a.replace(/&(lt|gt|nbsp|amp|quot);/ig,
     function(all,t){return arrEntities[t];});
 }
+// logo 返回首页
+function _back(){
+    window.location.href = 'index.html'; 
+};
