@@ -135,14 +135,7 @@
 		},
 		mounted(){
 			this.$nextTick(()=>{
-				getKFInfo().then(res=>{
-		          let {errcode,message,content} = res ;
-		          if(errcode !== 0){
-		            errorInfo(errcode,message) ;
-		          }else {
-		            this.kfInfo=content; 
-		          }
-		        })
+				
 			})
 		}
 	}

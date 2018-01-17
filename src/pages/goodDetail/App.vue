@@ -1,7 +1,7 @@
 <template>
     <div id="app">
 		<v-head-slider :user-info='userInfo'></v-head-slider>
-		<v-search></v-search>
+		<v-search :cart-goods='cartGoods' :cart-total='cartTotal'></v-search>
 		<v-navs :navs='navs'></v-navs>
 		<v-good-info :goods='goods' :comment='comment'></v-good-info>
 		<div class="center-box container">
@@ -10,7 +10,8 @@
 				<v-hot-sale :hot-lists='hot'></v-hot-sale>
 			</div>
 			<div class='content-box'>
-				<!-- <v-good-params></v-good-params> -->
+				<v-params-detail :description='description' :good-params='goods.params' :tab-index='tabIndex' v-show='!tabIndex'></v-params-detail>
+				<v-comment-list v-show='tabIndex'></v-comment-list>
 			</div>
 			<v-guess-like></v-guess-like>
 		</div>
@@ -24,13 +25,15 @@
 	import vGoodInfo from '../../components/goodDetail/GoodInfo';
 	import vCoupon from '../../components/goodDetail/Coupons';
 	import vHotSale from '../../components/goodDetail/HotSale';
-	import vGoodParams from '../../components/goodDetail/goodParams';
-	// import vCommentList from '../../components/goodDetail/CommentList';
+	import vGoodParams from '../../components/goodDetail/GoodParams';
+	import vParamsDetail from '../../components/goodDetail/ParamsDetail'
+	import vCommentList from '../../components/goodDetail/CommentList';
 	import vGuessLike from '../../common/GuessLike';
 	import vFooter from  '../../common/Footer';
 	import {postReq} from '../../assets/js/api';
 	import {errorInfo} from '../../assets/js/check';
 	import userMixin from '../../assets/js/userMixin';
+	import shopMixin from '../../assets/js/shopMixin';
     export default {
     	data(){
     		return{
@@ -48,13 +51,15 @@
     			like: [],
     			hot: [],
     			coupon: [],
+    			tabIndex: 1,
+    			description: '',
     			query: {}
     		}
     	},
     	components:{
-    		vHeadSlider,vSearch,vNavs,vGoodInfo,vCoupon,vHotSale,vGuessLike,vFooter
+    		vHeadSlider,vSearch,vNavs,vGoodInfo,vCoupon,vGoodParams,vHotSale,vGuessLike,vParamsDetail,vCommentList,vFooter
     	},
-    	mixins: [userMixin],
+    	mixins: [userMixin,shopMixin],
     	methods:{
     		getDetail(){
     			let params = {
@@ -65,9 +70,9 @@
     				let {errcode,message,content} = res ;
 					if(errcode == 0){
 						this.goods = content.goods;
+						this.description = escape2Html(content.goods.description);
 						this.coupon = content.coupon;
 						this.comment = content.comment;
-						this.like = content.like;
 						this.hot = content.hot;
 					}else {
 						errorInfo(errcode,message);

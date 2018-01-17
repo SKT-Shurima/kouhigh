@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <v-head-slider :user-info='userInfo'></v-head-slider>
-        <v-search></v-search>
+        <v-search :cart-goods='cartGoods' :cart-total='cartTotal'></v-search>
         <v-navs :navs='navs'></v-navs>
         <div class="center-box container">
             <div class='content-box'>
@@ -22,6 +22,7 @@
     import {postReq} from '../../assets/js/api';
     import {errorInfo} from '../../assets/js/check';
     import userMixin from '../../assets/js/userMixin';
+    import shopMixin from '../../assets/js/shopMixin';
     export default {
         data(){
             return{
@@ -36,7 +37,7 @@
         components:{
             vHeadSlider,vSearch,vNavs,vGoods,vFooter
         },
-        mixins: [userMixin]
+        mixins: [userMixin,shopMixin]
     }
 </script>
 <style type="text/css" lang='scss' scoped>

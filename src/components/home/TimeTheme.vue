@@ -63,7 +63,17 @@
 			}
 		},
 		props:{
-			
+			content: {
+				type: Object,
+				required: true,
+				default: function(){
+					return {
+						goods: [],
+						icon: '',
+						name: ''
+					}
+				}
+			}
 		},
 		filters: {
 			countTime

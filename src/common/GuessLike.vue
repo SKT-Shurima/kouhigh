@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class='wrap'>
 		<h1 class='bg-f5 color-6 slide-title'>
 			<i class="icon icon-c-slide"></i>
 			<span>猜你喜欢</span>
@@ -40,6 +40,10 @@
 	}
 </script>
 <style type="text/css" lang='scss' scoped>
+	.wrap{
+		padding-top: 50px;
+		clear: both;
+	}
 	.slide-title{
 		font-size: 16px;
 		margin-bottom: 10px;

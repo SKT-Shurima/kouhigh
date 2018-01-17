@@ -113,6 +113,7 @@ export default {
 		background: rgba(255,255,0,0.3);
 		position: absolute;
 		top: 0;
+		cursor: move;
 	}
 	#big{
 		width: 420px;

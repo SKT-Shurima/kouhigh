@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="select-box">
-						<el-checkbox  v-model='remember'>记住密码</el-checkbox>
+						<el-checkbox  v-model='remember'>自动登录</el-checkbox>
 						<div style="float: right;">
 							<a href="forgetPassword.html" style="color:#000;">忘记密码</a>
 							<a href="reg.html" style="color: #f24450;margin-left:10px;">免费注册</a>
@@ -74,6 +74,8 @@
 	import vHeadSlider from '../../common/HeadSlider';
 	import vBaseFooter from '../../common/BaseFooter';
 	import userMixin from '../../assets/js/userMixin';
+	import {postReq,baseApi} from '../../assets/js/api';
+	import {MessageBox} from  'element-ui';
 	export default {
 		data(){
 			return {
@@ -81,7 +83,7 @@
 				passwd: '',
 				verify_code: '',
 				remember: true,
-				token: '',
+				image_token: '',
 				imgSrc: "",
 				adImage: "http://static.strongmall.net/upload/ad/2017_10_30/14e67bb469a46b0627d74b424698707f4b535b13.jpg?imageView2/2/w/1920/h/600",
 				adParams: ""
@@ -94,13 +96,14 @@
 		methods:{
 			loginFn(){
 				let params = {
-					oauth: 'Web',
-					param: this.username,
-					passwd: this.passwd,
+					oauth: 'email',
+					account: this.username,
+					password: this.passwd,
 					verify_code: this.verify_code,
-					token: this.token
+					image_token: this.image_token
+
 				};
-				login(params).then(res=>{
+				postReq('/customer/login',params).then(res=>{
 					let {errcode,message,content} = res;
 					if (errcode !== 0) {
 						MessageBox.alert(message, '提示', {
@@ -121,7 +124,8 @@
 								delCookie('accountInfo');
 							}
 						}
-						setCookie('access_token',content.access_token,2);
+						setCookie('token',content.customer.token,2);
+						// 注：module 后期改为线上域名
 						var lastUrl =  document.referrer ;
 						if (window.history.length>1&&lastUrl.indexOf("module")>=0) {
 							if (lastUrl.indexOf('reg')>=0) {
@@ -137,14 +141,11 @@
 			},
 			// 看不清，点击之后换一张
 			initToken(){
-				createToken().then(res=>{
+				postReq('/customer/createToken',{}).then(res=>{
 					let {errcode,message,content} = res;
-					if (errcode !== 0) {
-
-					} else {
-						this.token = content.token;
-						this.imgSrc = `${base}/customerAction/createVerify?token=${this.token}`;
-						
+					if (errcode == 0) {
+						this.image_token =content.image_token
+						this.imgSrc = `${baseApi}/customer/createVerify?image_token=${content.image_token}`;
 					}
 				})
 			},
@@ -166,7 +167,6 @@
 		},
 		mounted(){
 			this.$nextTick(()=>{
-				return;
 				this.initToken();
 				let accountInfo = getCookie('accountInfo');
 				if (accountInfo) {
@@ -174,7 +174,7 @@
 					this.username = utf8to16(base64decode(accountInfo[0]));
 					this.passwd = utf8to16(base64decode(accountInfo[1]));
 				}
-				this.initAd();
+				// this.initAd();
 			})
 		}
 	}
@@ -284,7 +284,7 @@
 	.login-btn{
 		width: 100%;
 		margin-top: 16px;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 		.el-button{
 			width: 100%;
 		}

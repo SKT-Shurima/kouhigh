@@ -173,6 +173,9 @@
 		}
 	}
 	.icon-shopping{
+		width: 20px;
+		height: 20px;
+		vertical-align: -5px;
 		background-image: url(../../static/img/common/shopping.png);
 	}
 	.icon-remove{

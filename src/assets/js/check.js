@@ -32,7 +32,8 @@ export const checkVal = (val,msg) => {
 }
 
 export const errorInfo = (errcode,message)=>{
-    if (errcode==99) {
+    if (errcode==-99) {
+        delCookie('token');
         MessageBox.alert('请先登录', '提示', {
             confirmButtonText: '确定',
             callback: action => {

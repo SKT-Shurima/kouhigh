@@ -8,8 +8,8 @@
 			<dl class="slide-show">
 				<dt>
 					<el-carousel height="390px">
-				      	<el-carousel-item v-for="(item,index) in 5" :key="index">
-				        	<img src="http://static.strongmall.net/upload/banner/2017_12_14/dc08d71c21c99b845ea4030080dc5ea3ebdbca5e.jpg">
+				      	<el-carousel-item v-for='(item,index) in banner' :key="index">
+				        	<img :src="item.image">
 				      	</el-carousel-item>
 				    </el-carousel>
 				</dt>
@@ -18,7 +18,7 @@
 						<i class="el-icon-arrow-left"></i>
 					</div>   
 					<div class="cont" :style='{width:212.5*5+"px",left: -212.5*sliderIndex+"px"}'>
-						<img src="http://static.strongmall.net/upload/banner/2017_12_14/dc08d71c21c99b845ea4030080dc5ea3ebdbca5e.jpg" alt="" v-for='(item,index) in 5' :key='index' >
+						<img :src="item.image" alt="" v-for='(item,index) in banner' :key='index' >
 					</div>
 					<div class="right-btn" @click='sliderIndex=sliderIndex>0?--sliderIndex:0;'>
 						<i class="el-icon-arrow-right"></i>
@@ -33,18 +33,19 @@
 		</div>
 		<!-- 每日上新 -->
 		<div class='center-box'>
-			<div class="title-slider color-9" style='width:270px;'>每日上新</div>
+			<div class="title-slider color-9" style='width:270px;'>{{activity.name}}</div>
 			<ul class='border-lt new-goods'>
-				<v-good-list v-for='(item,index) in 6' :key='index' :col='6'></v-good-list>
+				<v-good-list v-for='(item,index) in activity.goods.goods' :key='index' :col='6' :good='item'></v-good-list>
 			</ul>
 		</div>
 		<!-- 主体商品 -->
 		<div class='center-box'>
-			<v-time-theme></v-time-theme>
-			<v-base-theme></v-base-theme>
-			<v-base-theme></v-base-theme>
-			<v-base-theme></v-base-theme>
-			<v-base-theme></v-base-theme>
+			<ul>
+				<li v-for='(themeItem,index) in theme' :key='index'>
+					<v-time-theme v-if='index==0' :content='themeItem'></v-time-theme>
+					<v-base-theme v-else :content='themeItem'></v-base-theme>
+				</li>
+			</ul>
 		</div>
 		<v-slider :user-info='userInfo'></v-slider>
 		<v-footer></v-footer>
@@ -62,6 +63,7 @@
 	import vFooter from  '../../common/Footer';
 	import userMixin from '../../assets/js/userMixin';
 	import shopMixin from '../../assets/js/shopMixin';
+	import {postReq} from '../../assets/js/api';
     export default {
     	data(){
     		return{
@@ -74,13 +76,38 @@
     					name: 'KouHigh直营'
     				}
     			],
+    			banner: [],
+    			activity: {
+    				goods: [],
+    				name: ''
+    			},
+    			theme: [],
     			sliderIndex: 0
     		}
     	},
     	components:{
     		vHeadSlider,vSearch,vNavs,vUserInfo,vGoodList,vTimeTheme,vBaseTheme,vSlider,vFooter
     	},
-    	mixins: [userMixin,shopMixin]
+    	mixins: [userMixin,shopMixin],
+    	methods:{
+    		getHomeData(){
+    			postReq('/mall/getHomeData',{}).then(res=>{
+    				let {errcode,message,content} = res ;
+					if(errcode == 0){
+						this.banner = content.banner;
+						this.activity = content.activity[0];
+						this.theme = content.topic;
+					}else {
+						errorInfo(errcode,message);
+					}
+    			})
+    		}
+    	},
+    	created(){
+    		this.$nextTick(()=>{
+    			this.getHomeData();
+    		})
+    	}
     }
 </script>
 <style type="text/css" lang='scss' scoped>
