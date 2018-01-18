@@ -18,10 +18,10 @@
 				<a href="">
 					<i class="icon icon-shopping"></i>
 					我的购物车
-					<span  class='cart-btn' v-text='0'></span>
+					<span  class='bg-primary cart-btn'>{{cartGoods.length|num_filter}}</span>
 				</a>
-				<div class="cart-box" v-show='cartBol' @mouseenter='cartBol=true' @mouseleave='cartBol=false'>
-				    <div class="border-c shop-list-box" v-if='cartGoods.length'>
+				<div class="cart-box border-c" v-show='cartBol' @mouseenter='cartBol=true' @mouseleave='cartBol=false'>
+				    <div class="shop-list-box" v-if='cartGoods.length'>
 				    	<ul class="shop-list">
 							<li v-for='(item,index) in cartGoods' :key='index'>
 								<dl class="goods-info">
@@ -51,7 +51,7 @@
 							</dd>
 						</dl>
 				    </div>
-					<div class="border-c no-cart" v-else>
+					<div class="no-cart" v-else>
 				   		暂无商品
 				   	</div>
 				</div>
@@ -62,6 +62,8 @@
 <script>
 	import {postReq} from '../assets/js/api';
 	import {errorInfo} from '../assets/js/check';
+	import {num_filter} from '../assets/js/filter';
+	import {MessageBox} from  'element-ui';
 	export default{
 		data(){
 			return{
@@ -69,6 +71,9 @@
 				searchWord: '',
 				hots: []
 			}
+		},
+		filters: {
+			num_filter
 		},
 		props: {
 			cartGoods: {
@@ -198,14 +203,16 @@
 		    border-radius: 8px;
 		    padding: 0px 4px;
 			color: #fff;
-			background-color: #f24450;
 		}
 	}
 	.cart-box{
 		position: relative;
 		width: 200px;
-	    top: -3px;
-	    left: -2px;
+		max-height: 300px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	    top: 5px;
+	    left: -1px;
 		.no-cart,.shop-list{
 			overflow: hidden;
 			width: 200px;
@@ -213,22 +220,13 @@
 			background-color: #fff;
 		}
 		.no-cart{
-			position: absolute;
-			right: -1px;
-			top: 8px;
 			height: 56px;
 			line-height: 56px;
 			text-align: center;
 		}
 	}
 	.shop-list-box{
-		position: absolute;
-	    top: 8px;
-	    right: -1px;
-	    max-height: 300px;
 	    padding-bottom: 20px;
-	    overflow-y: scroll;
-	    z-index: 100;
 		.check-cart{
 			height: 72px;
 			line-height: 30px;

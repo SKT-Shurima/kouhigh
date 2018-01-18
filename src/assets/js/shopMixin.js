@@ -10,7 +10,7 @@ export default {
 	methods:{
 		getCart(){
 			let params = {
-				token: token
+				token: getCookie('token')
 			}
 			postReq('/cart/getCarts',params).then(res=>{
 				let {errcode,message,content} = res ;

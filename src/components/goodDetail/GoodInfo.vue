@@ -27,7 +27,7 @@
 			</dl>
 			<div class="shop-info">
 				<div class="color-3 title">{{goods.name}}</div>
-				<!-- 一元抢购 -->
+				<!-- 倒计时相关 -->
 				<div class='special-box' v-if='false' :class='payBol===false&&addBol===true?"start-bg":payBol&&addBol?"end-bg":"over-bg"'>
 					<img src="../../../static/detailImg/snapup.png" height="32" width="109">
 					<span v-show='special.date_start*1000>nowTime'>此商品<i>{{(special.date_start*1000-nowTime)|countdown}}</i>后开始抢购，请提前加入购物车！</span>
@@ -46,7 +46,7 @@
 							<el-row>
 								<el-col :span='4' class='color-6' style='padding-top: 16px;'>KouHigh价</el-col>
 								<el-col :span='20' class='color-primary'>
-									$<span style="font-size:30px;margin-left:4px;">{{goods.price}}</span>
+									$<span style="font-size:30px;margin-left:4px;">{{salePrice}}</span>
 								</el-col>
 							</el-row>
 							<el-row>
@@ -70,10 +70,10 @@
 						</div>
 					</dt>
 					<dd class="choose-info">
-						<el-row v-for='(items,indexs) in goods.specs' :key='indexs'>
-							<el-col :span='4'>{{items.name}}</el-col>
+						<el-row v-for='(specsItem,specsIndex) in specs' :key='specsIndex'>
+							<el-col :span='4'>{{specsItem.name}}</el-col>
 							<el-col :span='20' class='choose-btn'>
-								<button class='btn-base' :class='{"icon-checked": specsIndex==index}' @click='specsIndex=index' v-for='(item,index) in items.items' :key='item.id'>{{item.name}}</button>
+								<button class='btn-base' :class='{"icon-checked": specsItem.checkIndex==index}' @click='specsItem.checkIndex=index;' v-for='(item,index) in specsItem.items' :key='item.id'>{{item.name}}</button>
 							</el-col>
 						</el-row>
 						<el-row>
@@ -83,13 +83,13 @@
 									<input type="text" name="" v-model='numInput'>
 								<button class='bg-f5' @click='changeNum(1)'><i class="el-icon-plus"></i></button>
 								<em style="line-height:28px;margin-left:10px;">件</em>
-								<span style="line-height: 28px;margin-left: 20px;">(库存{{goods.stock}}件)</span>
+								<span style="line-height: 28px;margin-left: 20px;">(库存{{stock}}件)</span>
 							</el-col>
 						</el-row>
 					</dd>
 					<dd class='buy-btn'>
-						<el-button type='primary' :disabled='!payBol' @click='shopping(0)'>立即购买</el-button>
-						<el-button type='text' style='background-color: #ffbd54;' @click='shopping(1)' :disabled='!addBol'>加入购物车</el-button>
+						<el-button type='primary'  @click='shopping(0)'>立即购买</el-button>
+						<el-button type='text' style='background-color: #ffbd54;' @click='shopping(1)'>加入购物车</el-button>
 					</dd>
 				</dl>
 			</div>
@@ -99,17 +99,18 @@
 
 <script>
 	import vMagnifyingGlass from './MagnifyingGlass'
+	import {postReq} from '../../assets/js/api';
 	import {errorInfo} from '../../assets/js/check';
+	import {MessageBox} from  'element-ui';
 	export default{
 		data(){
 			return {
 				scrollIndex: 0,
 				imgIndex: 0,
-				payBol: false,
-				addBol: false,
-				numInput: 0,
-				specsIndex: 0
-
+				numInput: 1,
+				stock: 0,
+				salePrice: 0,
+				option_id: ''
 			}
 		},
 		props:{
@@ -117,6 +118,12 @@
 				type: Object,
 				default: function() {
 		          return {};
+		        }
+			},
+			specs: {
+				type: Array,
+				default: function() {
+		          return [];
 		        }
 			},
 			comment: {
@@ -145,17 +152,15 @@
 					let arr = this.specs;
 					let specs= '';
 					for(let i = 0;i<arr.length;i++){
-						let index = arr[i].select ;
-						if (typeof(index) === 'number') {
-							specs += arr[i].items[index].id +"_";
-						}
+						let index = arr[i].checkIndex;
+						specs += arr[i].items[index].id +"_";
 					}
 					specs = specs.substr(0,specs.length-1);
 					let options  = this.goods.options;
 					for(let j = 0 ; j< options.length;j++){
 						if (options[j].specs === specs) {
 							this.stock = options[j].stock ;
-							this.salePrice = options[j].sale_price ;
+							this.salePrice = options[j].price ;
 							this.option_id = options[j].id ;
 						}
 					}
@@ -179,38 +184,6 @@
 			 }
 			},
 		methods: {
-	        // 选择完毕
-	        chooseOver(index) {
-	            this.areaIndex = index;
-	            this.proName = this.provinceArr[this.proIndex].name ;
-	            this.cityName = this.cityArr[this.cityIndex].name;
-	            if (this.proName === this.cityName) {
-	            	this.proName = this.cityArr[this.cityIndex].name;
-	           		this.cityName = this.areaArr[this.areaIndex].name;
-	            }
-	            let shops = [{
-            		seller_id: this.goods.seller_id ,
-            		goods: [{
-            			goods_id: this.goods.goods_id,
-						option_id: this.option_id ,
-						quantity: this.numInput+"",
-            		}]
-            	}];
-            	shops =  JSON.stringify(shops);
-	            let params = {
-	            	province_id: this.provinceArr[this.proIndex].zone_id-0,
-	            	shops: shops
-	            }
-	            getExpressFees(params).then(res=>{
-	            	let {errcode,message,content} = res ;
-					if(errcode!==0) {
-						errorInfo(errcode,message) ;
-					}else{
-						this.express_fee = content[0].express_fee ;
-						this.addressBol = false;
-					}
-	            })
-	        },
 			changeNum(mask){
 				if (mask) {
 					this.numInput++;
@@ -227,29 +200,54 @@
 			shopping(type){
 				let token = getCookie('token');
 				if (!token) {
-					errorInfo(99,"请先登录");
-					return false;
-				}
-				// 商品规格
-				if (this.goods.options.length&&!this.option_id) {
-					MessageBox.alert("请选择商品规格", '提示', {
-			          	confirmButtonText: '确定'
-				    });
-				    return ;
-				}
-				this.shopType=type;
-				// 是否认证
-				if (this.goods.is_verify==="1"&&!this.check_real_customer_bol) {
-					this.verifyBol = true;
-					return false;
-				}
-				// 同意购买协议
-				if (this.goods.need_protocol=="1"&&!this.protocolBol) {
-					this.protocolBol=true;
+					errorInfo(-99,"请先登录");
 					return false;
 				}
 				type?this.addShopCar():this.settlement();
 			},
+			addShopCar(){
+				let params = {
+					token: getCookie('token'),
+					goods_id: this.goods.goods_id,
+					option_id: this.option_id,
+					quantity: this.numInput
+				}
+				postReq('/cart/addCart',params).then(res=>{
+					let {errcode,message,content} = res ;
+					if(errcode == 0){
+						MessageBox.alert(message, '提示', {
+				            confirmButtonText: '确定',
+				            callback: action => {
+				                window.location.reload();
+				            }
+				        });
+					}else {
+						errorInfo(errcode,message);
+					}
+				})
+			},
+			settlement(){
+				let params = {
+			 		token: getCookie('token'),
+			 		data: [{
+			 			shop_id: this.goods.shop_id,
+			 			goods: [{
+		 					goods_id: this.goods.goods_id,
+							option_id: this.option_id,
+							quantity: this.numInput
+		 				}]
+			 		}]
+			 	}
+			 	params.data = JSON.stringify(params.data);
+			 	postReq('/order/balance',params).then(res=>{
+			 		let {errcode,message,content} = res ;
+					if(errcode==0) {
+						console.log(1)
+					}else{
+						errorInfo(errcode,message) ;
+					}
+			 	})
+			}		
 		},
 		created() {
 			this.$nextTick(()=>{

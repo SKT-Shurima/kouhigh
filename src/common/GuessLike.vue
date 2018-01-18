@@ -4,18 +4,18 @@
 			<i class="icon icon-c-slide"></i>
 			<span>猜你喜欢</span>
 			<em style="float: right;">
-				换一组<i class="icon icon-fresh"></i>
+				换一组<i class="icon icon-fresh" @click='initList'></i>
 			</em>
 		</h1>
 		<ul v-if='likeLists.length' class='border-lt guess-list'>
-			<v-good-list v-for='(item,index) in likeLists' :key='index' :good='item' ></v-good-list>
+			<v-good-list v-for='(item,index) in likeLists' :key='index' :good='item' :hover='true'></v-good-list>
 		</ul>
 	</div>
 </template>
 <script type="text/javascript">
 	import vGoodList from './GoodList';
 	import {postReq} from '../assets/js/api';
-	import {errorInfo} from '../assets/js/api';
+	import {errorInfo} from '../assets/js/check';
 	export default{
 		data(){
 			return{
@@ -25,8 +25,8 @@
 		components:{
 			vGoodList
 		},
-		created(){
-			this.$nextTick(()=>{
+		methods:{
+			initList(){
 				postReq('/goods/getLikeGoods',{}).then(res=>{
 					let {errcode,message,content} = res ;
 					if(errcode == 0){
@@ -35,6 +35,11 @@
 						errorInfo(errcode,message);
 					}
 				})
+			}
+		},
+		created(){
+			this.$nextTick(()=>{
+				this.initList();
 			})
 		}
 	}
@@ -56,6 +61,9 @@
 	.icon-fresh{
 		width: 18px;
 		height: 18px;
+		cursor: pointer;
+		vertical-align: -4px;
+    	margin-left: 4px;
 		background-image: url(../../static/img/common/fresh.png);
 	}
 	.guess-list{

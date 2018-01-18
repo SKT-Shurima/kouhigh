@@ -8,7 +8,9 @@
                 <v-goods></v-goods>
             </div>
             <div class='slider-box'>
-            </div>  
+                <v-good-recommen></v-good-recommen>
+            </div> 
+            <v-guess-like></v-guess-like> 
         </div>
         <v-footer></v-footer>
     </div>
@@ -18,6 +20,8 @@
     import vSearch from '../../common/Search';
     import vNavs from '../../common/Nav';
     import vGoods from '../../components/relatedGoods/Goods';
+    import vGuessLike from '../../common/GuessLike';
+    import vGoodRecommen from '../../common/GoodRecommen';
     import vFooter from  '../../common/Footer';
     import {postReq} from '../../assets/js/api';
     import {errorInfo} from '../../assets/js/check';
@@ -35,7 +39,7 @@
             }
         },
         components:{
-            vHeadSlider,vSearch,vNavs,vGoods,vFooter
+            vHeadSlider,vSearch,vNavs,vGoods,vGuessLike,vGoodRecommen,vFooter
         },
         mixins: [userMixin,shopMixin]
     }
@@ -48,6 +52,7 @@
   .slider-box{
     float: left; 
     width: 250px;
+    padding-left: 10px;
   }
   /*内容区域*/
   .content-box{

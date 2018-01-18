@@ -24,7 +24,7 @@
 				</ul>
 			</div>
 			<div class='component-view'>
-				<router-view></router-view>
+				<router-view :user-info='userInfo' :order-info='orderInfo'></router-view>
 			</div>
 		</div>
 		<v-footer></v-footer>
@@ -122,11 +122,11 @@
 				color: #666;
 			}
 		}
-	}
-	.router-link-active{
-		color: #ffa4a3;
-		i{
-			background-color: #ffa4a3;
+		.router-link-active{
+			color: #ffa4a3;
+			i{
+				background-color: #ffa4a3;
+			}
 		}
 	}
 	.component-view{

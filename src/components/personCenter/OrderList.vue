@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<div class="border-c f5-bg shop-info-head">
+		<div class="border-c bg-f5 shop-info-head">
 			<el-row>
 				<el-col :span='9'>商品信息</el-col>
 				<el-col :span='2'>单价</el-col>
@@ -11,11 +11,11 @@
 				<el-col :span='3'>交易操作</el-col>
 			</el-row>
 		</div>
-		<div class="border-c shop-info-list" v-for='(shopItem,shopIndex) in order' :key='shopIndex' v-if='order'>
+		<div class="border-c shop-info-list" v-for='(shopItem,shopIndex) in order' :key='shopIndex' v-if='order.length'>
 			<div class="f5-bg title">
 				<el-row>
 					<el-col :span='9'>
-						<em style='margin-left:24px;font-weight: 600;'>{{shopItem.date_add*1000|dateStyle}}</em>
+						<em style='margin-left:24px;font-weight: 600;'>{{shopItem.date_add*1000|dateymd}}</em>
 						<span style='margin-left:26px'>订单号：{{shopItem.order_sn}}</span>
 					</el-col>
 					<el-col :span='10'>
@@ -29,18 +29,19 @@
 				 		<div v-for='(item,index) in shopItem.goods' :key='item.goods_id' class="goods-list">
 					 		<dl class="goods-msg">
 								<dt>
-									<img :src="item.image" @click='goodDetail(item.goods_id)'>
+									<a :href="`goodDetail.html?goods_id=${item.goods_id}`">
+										<img :src="item.cover">
+									</a>
 								</dt>
 								<dd>
 									<div class="goods-name" v-text='item.name'></div>
 									<div class="color-6">
 										<span style='margin-right:10px;'>规格:{{item.option_name}}</span>
-										<span style="margin-right: 10px;">套餐:{{item.goods_type}}</span>
 									</div>
 								</dd>
 							</dl>
 							<div class='goods-price'>
-								<div>{{item.price|currency}}</div>
+								<div>${{item.price}}</div>
 							</div>
 							<div class="goods-price" v-text='item.quantity'></div>
 							<div class="goods-price" style='cursor:pointer;' @click='applyRefund(shopItem.order_sn,item.goods_id,item.option_id)' v-show='shopItem.order_state!=="1"&&shopItem.order_state!=="6"'>
@@ -51,9 +52,10 @@
 					<div class="goods-info" :style="{height:130*shopItem.goods.length+'px'}" :class='{"multiple":shopItem.goods.length>1}'>
 						<el-row>
 							<el-col :span='8'>
-								<div style="line-height:26px;font-size:14px;font-weight:600;">{{shopItem.order_amount|currency}}</div>
-								<div style="color:#666;line-height:20px;">含运费:{{shopItem.express_amount|currency}}</div>
-								<div style='color:#666;line-height:20px;'>优惠券:{{shopItem.coupon_amount|currency}}</div>
+								<div style="line-height:26px;font-size:14px;font-weight:600;">${{shopItem.order_amount}}</div>
+								<div class='color-6' style="line-height:20px;">含运费:${{shopItem.express_amount}}</div>
+								<div class='color-6' style='line-height:20px;'>增值税:${{shopItem.coupon_amount}}</div>
+								<div class='color-6' style='line-height:20px;'>积分抵:${{shopItem.coupon_amount}}</div>
 							</el-col>
 							<el-col :span='8' style='line-height:20px;padding-top: 4px;'>
 								<!-- 待付款 待发货 待评价 -->
@@ -110,52 +112,72 @@
 				</div>
 			</div>
 		</div>
-		<!-- <pagination :pagesize='pagesize' @changePage='changePage'></pagination> -->
+		<v-pagination :total-page='totalPage-0' @changePage='changePage' ref='pagination'></v-pagination>
 	</div>
 </template>
 <script>
+import vPagination from '../../common/Pagination';
 import {dateymd} from '../../assets/js/filter'
-import {MessageBox,Message} from  'element-ui'
+import {MessageBox} from  'element-ui';
+import {postReq} from '../../assets/js/api';
+import {errorInfo} from '../../assets/js/check';
 	export default {
 		data(){
 			return {
-				order: null,
-				pagesize: 1 ,// 总页数,
-				state: "0" ,
-				reqParams: null
+				order: [],
+				page: 1,
+				totalPage: 1 ,
+				state: "0" 
 			}
 		},
 		filters: {
 			dateymd
 		},
 		components:{
+			vPagination
+		},
+		watch: {
+		  	'$route' (to, from) {
+		   		this.init()
+		  	}	
 		},
 	    methods: {
-	    	goodDetail(id){
-				window.open(`goodDetail.html?goods_id=${id}`)  ;
-			},
+	    	init(){
+	    		let path = this.$router.history.current.path;
+				switch (path){
+					case '/allOrder':
+						this.state = 0;
+					break;
+					case '/waitPayFor':
+						this.state = 1;
+					break;
+					case '/waitSend':
+						this.state = 2;
+					break;
+					case '/waitGet':
+						this.state = 3;
+					break;
+					case '/waitComment':
+						this.state = 4;
+					break;
+				}
+				this.getOrderList();
+	    	},	
 	        handleSelect(key, keyPath) {
 	            console.log(key, keyPath);
 	        },
 	        getOrderList(state,page){
 	        	let params = {
-		    		access_token: getCookie('access_token'),
-		    		page: page
+		    		token: getCookie('token'),
+		    		order_state: this.state,
+		    		page: this.page
 		    	};
-		      	if (state==5) {
-		      		params.type = '2';
-		      	}else{
-		      		this.state = state ;
-		      		params.state = state+"";
-		      		params.type = '1';
-		      	}
-		    	getOrders(params).then(res=>{
+		    	postReq('/order/getOrders',params).then(res=>{
 		    		let {errcode,message,content} = res ;
-					if(errcode !== 0){
-						errorInfo(errcode,message) ;
+					if(errcode == 0){
+						this.order = content.order;
 					}else {
-						this.order = content.orders;
-						this.pagesize = content.pageSize;
+						errorInfo(errcode,message) ;
 					}
 		    	})
 	   	 	},
@@ -242,24 +264,11 @@ import {MessageBox,Message} from  'element-ui'
 	   	 	// 改变页数
 			changePage(page){
 				this.getOrderList(this.state,page);
-			},
-			init(){
-				let hash = location.hash ;
-				if (hash.indexOf('?')>0) {
-					this.reqParams = getHashReq();
-					if (this.reqParams.orderIndex) {
-						let index = this.reqParams.orderIndex;
-						this.getOrderList(index,"1")
-					}
-				}else {
-					// 获取订单列表
-					this.getOrderList("0","1")
-				}
 			}
 		},
 		created(){
 			this.$nextTick(()=>{
-				// this.init();	
+				this.init();
 			})
 		}
 	}

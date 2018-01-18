@@ -60,48 +60,30 @@
 	 					<div class="eval-msg">
 	 						<div class="time">
 	 							<span>
-		 							{{item.date_add|date_addYM}}&nbsp;{{item.date_add|timeHM}}
+		 							{{item.date_add|dateYM}}&nbsp;{{item.date_add|timeHM}}
 		 						</span>
 		 						<strong>
 		 							规格：{{item.option_name}}
 		 						</strong>
 		 					</div>
 	 					</div>
-	 					<!-- 追加评论列表 -->
-	 					<!-- <div class="add-eval" v-show='replyList[index].bol'>
-	 						<ul v-if='replyList[index].replyList'>
-	 							<li v-if='replyList[index].replyList.seller_reply.reply_content'>
-	 								<p class="add-con seller-reply">【店家回复】{{replyList[index].replyList.seller_reply.reply_content}}</p>
-	 								<div class="add-time">
-	 									{{(replyList[index].replyList.seller_reply.date_add_content-0)*1000|date_addYM}}&nbsp;{{(replyList[index].replyList.seller_reply.date_add_content-0)|timeHM}}
-	 								</div>
-	 							</li> 
-		 						<li v-for='replyItem in replyList[index].replyList.reply'>
-		 							<p class="add-con">
-		 								<span>{{replyItem.nickname}}：</span>{{replyItem.content}}
-		 							</p>
-		 							<div class="add-time">
-		 								<span>{{(replyItem.reply_date_add-0)|date_addYM}}&nbsp;{{(replyItem.reply_date_add-0)|timeHM}}</span>
-		 							</div>
-		 						</li>
-		 					</ul>
-	 					</div> -->
 	 				</dd>
 	 			</dl>
 	 		</li>
 	 	</ul>
- 		<v-pagination :pagesize='pagesize' @changePage='changePage'></v-pagination>
+ 		<v-pagination :total-page='totalPage-0' @changePage='changePage' ref='pagination'></v-pagination>
 	</div>
 </template>
 <script type="text/javascript">
 	import vPagination from '../../common/Pagination';
-	import {date_addYM,timeHM} from '../../assets/js/filter';
+	import {dateYM,timeHM} from '../../assets/js/filter';
 	import {postReq} from '../../assets/js/api';
-	export default {
+	import {errorInfo} from '../../assets/js/check';
+ 	export default {
 		data(){
 			return{
 				page: 1,
-				pagesize: 1,
+				totalPage: 1,
 				commentList: [],
 				comments_count: {},
 				p: '0%',
@@ -117,7 +99,7 @@
 			}
 		},
 		filters: {
-			date_addYM,timeHM
+			dateYM,timeHM
 		},
 		components: {
 			vPagination
@@ -147,7 +129,7 @@
 							comment[i].currentIndex = '';
 						}
 						this.commentList = comment;
-						this.pagesize = content.commnet.pageSize;
+						this.totalPage = content.commnet.pageSize;
 						this.comments_count = content.commnet.comments_count;
 						this.p = this.comments_count.positive_count/this.comments_count.total_count*100 +'%';
 						this.m = this.comments_count.moderate_count/this.comments_count.total_count*100 +'%';

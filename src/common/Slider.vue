@@ -26,7 +26,7 @@
 								购物车
 							</div>
 							<div style="margin-top:10px;">
-								<span class='bg-primary' style="padding: 0px 4px;border-radius: 8px;background-color:#c81623;">0</span>
+								<span class='bg-primary' style="padding: 0px 4px;border-radius: 8px;">0</span>
 							</div>
 						</dd>
 					</dl>

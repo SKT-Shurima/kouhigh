@@ -35,7 +35,7 @@
 		<div class='center-box'>
 			<div class="title-slider color-9" style='width:270px;'>{{activity.name}}</div>
 			<ul class='border-lt new-goods'>
-				<v-good-list v-for='(item,index) in activity.goods.goods' :key='index' :col='6' :good='item'></v-good-list>
+				<v-good-list v-for='(item,index) in activity.goods.goods' :key='index' :col='6' :good='item' :hover='false'></v-good-list>
 			</ul>
 		</div>
 		<!-- 主体商品 -->

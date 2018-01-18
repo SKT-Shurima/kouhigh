@@ -30,7 +30,7 @@
 			},
 			hover:{
 				type: Boolean,
-				default: false
+				default: true
 			}
 		},
 		methods: {
@@ -43,9 +43,9 @@
 </script>
 <style type="text/css" lang='scss' scoped>
 	.info-list{
-		padding: 14px;
 		cursor: pointer;
 		dl{
+			padding: 14px;
 			cursor: pointer;
 			border: 2px solid transparent;
 		}

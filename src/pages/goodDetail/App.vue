@@ -3,7 +3,7 @@
 		<v-head-slider :user-info='userInfo'></v-head-slider>
 		<v-search :cart-goods='cartGoods' :cart-total='cartTotal'></v-search>
 		<v-navs :navs='navs'></v-navs>
-		<v-good-info :goods='goods' :comment='comment'></v-good-info>
+		<v-good-info :goods='goods' :comment='comment' :specs='specs'></v-good-info>
 		<div class="center-box container">
 			<div class='slider-box'>
 				<v-coupon :hot-lists='hot'></v-coupon>
@@ -53,7 +53,8 @@
     			coupon: [],
     			tabIndex: 1,
     			description: '',
-    			query: {}
+    			query: {},
+    			specs: []
     		}
     	},
     	components:{
@@ -74,6 +75,14 @@
 						this.coupon = content.coupon;
 						this.comment = content.comment;
 						this.hot = content.hot;
+						content.goods.specs = JSON.stringify(content.goods.specs)
+						if (content.goods.specs) {
+							let specs = JSON.parse(content.goods.specs);
+							for (let i = 0; i < specs.length; i++) {
+								specs[i].checkIndex = 0;
+							}
+							this.specs = specs;
+						}
 					}else {
 						errorInfo(errcode,message);
 					}

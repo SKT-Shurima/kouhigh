@@ -23,6 +23,9 @@ export default new Router({
         path: '/waitGet',
         component: orderList
     },{
+        path: '/waitComment',
+        component: orderList
+    },{
         path: '/afterSale',
         component: orderList
     }

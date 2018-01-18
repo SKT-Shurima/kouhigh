@@ -2,11 +2,11 @@
 	<div class="page-wrap">
 	    <div class="page-box">
 	     	<div style="margin-top: 6px;">
-		    	 <button class="page-btn" @click='changePage(0)' :class='{"page-btn-disable":currentPage===totalPage}' :disabled='currentPage===totalPage'>
+		    	 <button class="bg-f5 color-6 page-btn" @click='changePage(0)' :class='{"page-btn-disable":currentPage===totalPage}' :disabled='currentPage===totalPage'>
 			    	下一页<i style="margin-left:6px;">&gt;</i>
 		    	</button>
 		    </div>
-		    <div>
+		    <div class='color-6'>
 		    	<el-pagination
 				    @current-change="handleCurrentChange"
 				   	:current-page="currentPage"
@@ -15,7 +15,7 @@
 			    </el-pagination>
 		    </div>
 		   	<div style="margin-top: 6px;">
-	    		<button class="page-btn" :class='{"page-btn-disable":currentPage===1}'  @click='changePage(1)' :disabled='currentPage===1'>
+	    		<button class="bg-f5 page-btn" :class='{"page-btn-disable":currentPage===1}'  @click='changePage(1)' :disabled='currentPage===1'>
 					<i style="margin-right: 6px;">&lt;</i>上一页
 				</button>
 	    	</div>
@@ -86,17 +86,9 @@
 		    background-color: #fff;
 		    border: 1px solid #ddd;
 		}
-		.el-pager li:hover {
-		    color: #007FD6;
-		    border-color: #007FD6;
-		}
 		.el-pager li.active {
 		    background-color: transparent;
 		    border-color: transparent;
-		    color: #007FD6;
-		}
-		.el-pager li.active:hover {
-		    color: #007FD6;
 		}
     }
     .page-btn{
@@ -109,5 +101,10 @@
 		color: #ddd;
 		cursor: not-allowed;
     }
+}
+.el-pager{
+	.number{
+		color: #666;
+	}
 }
 </style>

@@ -3,7 +3,7 @@
 		<dl class='center-box nav-box'>
 			<dt class='cate-list'>
 				<div @mouseenter='listConBol=true;' @mouseleave="listConBol=cateShow?true:false;">全部商品分类</div>
-				<ul class="con-list" @mouseenter='listBol=true;listConBol=true' @mouseleave='listBol=false;listConBol=false' v-show='listConBol||cateShow'>
+				<ul class="con-list" @mouseenter="listBol=true;listConBol=true" @mouseleave="listBol=false;listConBol=false;listIndex='';" v-show='listConBol||cateShow'>
 					<li class='bg-primary' v-for='(item,index) in category' :key='index'  @mouseenter='listIndex=index;fIndex=index' @click='checkGoods(index,item.category_id)'>
 						<dl :class='{"check-unit":listIndex===index&&listConBol}'>
 							<dt>

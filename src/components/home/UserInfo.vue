@@ -6,7 +6,7 @@
 					<img :src="userInfo.portrait" v-if='userInfo.portrait'>
 					<img src="../../../static/img/common/avaterBig.jpg" v-else>
 				</dt>
-				<dd v-if='Object.keys(userInfo).length'>Hi,您好！</dd>
+				<dd v-if='!Object.keys(userInfo).length'>Hi,您好！</dd>
 				<dd v-else>Hi,{{userInfo.nickname}}</dd>
 			</dl>
 			<div class="bg-f2 btn-box" v-if='!Object.keys(userInfo).length'>
