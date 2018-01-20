@@ -2,11 +2,11 @@
 	<div class="wrap" v-if='Object.keys(userInfo).length'>
 		<div class="container">
 			<ul>
-				<li class="avater" style='padding:0px;'>
+				<li class="portrait" style='padding:0px;'>
 					<div style="width: 28px;height: 28px;margin:0px auto 12px;;">
 						<a href="personCenter.html">
 							<img :src="userInfo.portrait" style="width:100%;height: 100%;" v-if='userInfo.portrait'>
-							<img src="../../static/img/common/avaterSmall.jpg" style="width:100%;height: 100%;" v-else>
+							<img src="../../static/img/common/portraitSmall.jpg" style="width:100%;height: 100%;" v-else>
 						</a>
 					</div>
 				</li>
@@ -183,7 +183,7 @@
 			cursor: pointer;
 		}
 	}
-	.avater{
+	.portrait{
 		img{
 			border-radius: 50%;
 		}

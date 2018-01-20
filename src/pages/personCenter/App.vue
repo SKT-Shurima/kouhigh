@@ -35,6 +35,7 @@
 	import vPersonCenterNav from '../../common/PersonCenterNav';
 	import vFooter from  '../../common/Footer';
 	import userMixin from '../../assets/js/userMixin';
+	import {MessageBox} from  'element-ui';
     export default {
     	data(){
     		return{
@@ -64,9 +65,6 @@
     				name: '商品收藏',
     				link: 'colGoods'
     			},{
-    				name: '店铺关注',
-    				link: 'viewStore'
-    			},{
     				name: '我的购物车',
     				link: 'myShopping'
     			},{
@@ -87,7 +85,20 @@
     	components:{
     		vHeadSlider,vPersonCenterNav,vFooter
     	},
-    	mixins: [userMixin]
+    	mixins: [userMixin],
+    	created(){
+    		this.$nextTick(()=>{
+    			let token = getCookie('token');
+    			if (!token) {
+    				MessageBox.alert('请先登录', '提示', {
+			            confirmButtonText: '确定',
+			            callback: action => {
+			                window.location.href = 'login.html';
+			            }
+			        });
+    			}
+    		})
+    	}
     }
 </script>
 <style type="text/css" lang='scss' scoped>

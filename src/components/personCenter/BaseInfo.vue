@@ -4,8 +4,8 @@
 			<div class="bg-f5 title">
 				<dl class='user-info'>
 					<dt>
-						<img :src="userInfo.avater" v-if='userInfo.avater'>
-						<img src="../../../static/img/common/avaterDefault.jpg" v-else>
+						<img :src="userInfo.portrait" v-if='userInfo.portrait'>
+						<img src="../../../static/img/common/portraitDefault.jpg" v-else>
 					</dt>
 					<dd>{{userInfo.nickname}}({{userInfo.email}})</dd>
 				</dl>
@@ -20,24 +20,24 @@
 					</li>
 				</ul>
 				<dl class="address">
-					<dt><a href="" class='color-lan'>我的收货地址</a></dt>
-					<dd><a href="" class='color-lan'>绑定银行卡</a></dd>
+					<dt><router-link to="/editAddress" class='color-lan'>我的收货地址</router-link></dt>
+					<dd><router-link to="/addBank" class='color-lan'>绑定银行卡</router-link></dd>
 				</dl>
 			</div>
 			<div class="shop-info">
 				 <ul>
-				 	<li @click='getOrders(1)'>待付款<i class='bg-primary'>{{orderInfo.wait_pay | num_filter}}</i></li>
-				 	<li @click='getOrders(2)'>待发货<i class='bg-primary'>{{orderInfo.wait_send | num_filter}}</i></li>
-				 	<li @click='getOrders(3)'>待收货<i class='bg-primary'>{{orderInfo.wait_receive| num_filter}}</i></li>
-				 	<li @click='getOrders(4)'>待评价<i class='bg-primary'>{{orderInfo.wait_comment | num_filter}}</i></li>
-				 	<li @click='getOrders(5)'>退款/售后</li>
+				 	<li><router-link to='/baseInfo_waitPayFor'>待付款<i class='bg-primary'>{{orderInfo.wait_pay | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitSend'>待发货<i class='bg-primary'>{{orderInfo.wait_send | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitGet'>待收货<i class='bg-primary'>{{orderInfo.wait_receive| num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitComment'>待评价<i class='bg-primary'>{{orderInfo.wait_comment | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_afterSale'>退款/售后</router-link></li>
 				 </ul>
 				 <div class="color-6 last-login">
 				 	上次登录时间：{{userInfo.date_last_login | dateYM}}&nbsp;{{userInfo.date_last_login | timeHM}}
 				 </div>             
 			</div>
 		</div>
-		<v-order-list ref='orderList'></v-order-list>
+		<router-view></router-view>
 	</div>
 </template>
 <script>
@@ -76,14 +76,6 @@ import vOrderList from '../../components/personCenter/OrderList';
 		    getOrders(index){
 		    	
 		    }
-		},
-		created(){
-			this.$nextTick(()=>{
-				let token = getCookie('token');
-				if (!token) {
-				    window.history.back();
-				}
-			})
 		}
 	}
 </script>

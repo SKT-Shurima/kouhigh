@@ -4,7 +4,7 @@
 			<dl>
 				<dt>
 					<img :src="userInfo.portrait" v-if='userInfo.portrait'>
-					<img src="../../../static/img/common/avaterBig.jpg" v-else>
+					<img src="../../../static/img/common/portraitBig.jpg" v-else>
 				</dt>
 				<dd v-if='!Object.keys(userInfo).length'>Hi,您好！</dd>
 				<dd v-else>Hi,{{userInfo.nickname}}</dd>
@@ -74,8 +74,8 @@
 				</a>
 			</div>
 			<ul class="msg-list">
-				<li class='ellipsis-1 color-6' v-for='(item,index) in 10' :key='index'>
-					圆周率网路
+				<li class='ellipsis-1' v-for='(item,index) in ad' :key='index'>
+					<a href="" class='color-6' v-text='item.name'></a>
 				</li>
 			</ul>
 		</div>
@@ -102,6 +102,13 @@
 					return {}
 				}
 			},
+			ad: {
+				type: Array,
+				required: true,
+				default: function(){
+					return []
+				}
+			}
 		},
 		methods:{
 		}

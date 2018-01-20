@@ -51,7 +51,7 @@
     			like: [],
     			hot: [],
     			coupon: [],
-    			tabIndex: 1,
+    			tabIndex: 0,
     			description: '',
     			query: {},
     			specs: []

@@ -67,7 +67,6 @@
 <script>
 import vGoodList from '../../common/GoodList';
 import vPagination from '../../common/Pagination';
-import {goodsList} from '../../assets/js/api';
 import {postReq} from '../../assets/js/api';
 import {errorInfo} from '../../assets/js/check';
 	export default {

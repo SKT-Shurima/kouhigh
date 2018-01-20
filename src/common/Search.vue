@@ -107,10 +107,7 @@
 							errorInfo(errcode,message);
 						}
 					})
-		        }).catch(() => {
-                    
-		        });
-				
+		        }).catch(() => {});
 			},
 			getHots(){
 				postReq('/search/getHotSearch',{}).then(res=>{
@@ -207,12 +204,13 @@
 	}
 	.cart-box{
 		position: relative;
-		width: 200px;
+		width: 210px;
 		max-height: 300px;
 		overflow-x: hidden;
 		overflow-y: scroll;
 	    top: 5px;
 	    left: -1px;
+	    background: #fff;
 		.no-cart,.shop-list{
 			overflow: hidden;
 			width: 200px;

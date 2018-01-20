@@ -74,6 +74,12 @@ export const countTime = time =>{
     s = trans(s);
     return h+':'+m+':'+s;
 }
+// 银行卡号分割
+export const bank_filter = val =>{
+    val += '';
+    val = val.replace(/(\s)/g,'').replace(/(\d{4})/g,'$1 ').replace(/\s*$/,'');
+    return val;
+}
 export const trans =  (val)=>{
     if (val < 10) {
       val = "0" + val ;

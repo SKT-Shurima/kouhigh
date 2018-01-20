@@ -48,23 +48,43 @@
 	 					<div v-text='item.nickname' class="name"></div>
 	 				</dt>
 	 				<dd>
-	 					<p v-text='item.content' class="eval-container"></p>
-	 					<ul class="eval-img-list">
-	 						<li v-for='(imgItem,imgIndex) in item.images' @click='item.current_img=imgItem;item.currentIndex=imgIndex;' :class='{"eval-img-checked":item.currentIndex===imgIndex}'>
-	 							<img :src="imgItem">
-	 						</li>
-	 					</ul>
-	 					<div class="eval-big-img" v-show='item.current_img'>
-	 						<img :src="item.current_img">
+	 					<div style="margin-bottom: 20px;">
+	 						<p v-text='item.content' class="eval-container"></p>
+		 					<ul class="eval-img-list">
+		 						<li v-for='(imgItem,imgIndex) in item.images' @click='item.current_img=imgItem;item.currentIndex=imgIndex;' :class='{"eval-img-checked":item.currentIndex===imgIndex}'>
+		 							<img :src="imgItem">
+		 						</li>
+		 					</ul>
+		 					<div class="eval-big-img" v-show='item.current_img'>
+		 						<img :src="item.current_img">
+		 					</div>
+		 					<div class="eval-msg">
+		 						<div class="time">
+		 							<span>
+			 							{{item.date_add|dateYM}}&nbsp;{{item.date_add|timeHM}}
+			 						</span>
+			 						<strong>
+			 							规格：{{item.option_name}}
+			 						</strong>
+			 					</div>
+		 					</div>
 	 					</div>
-	 					<div class="eval-msg">
-	 						<div class="time">
-	 							<span>
-		 							{{item.date_add|dateYM}}&nbsp;{{item.date_add|timeHM}}
-		 						</span>
-		 						<strong>
-		 							规格：{{item.option_name}}
-		 						</strong>
+	 					<div style="padding-top: 20px;border-top:1px dashed #ccc;" v-for='(replyItem,replyIndex) in item.child_commnet' :key='replyItem.comment_id'>
+	 						<p v-text='replyItem.content' class="eval-container"></p>
+		 					<ul class="eval-img-list">
+		 						<li v-for='(replyImg,replyImgIndex) in replyItem.images' @click='replyItem.current_img=replyImg;replyItem.currentIndex=replyImgIndex;' :class='{"eval-img-checked":replyItem.currentIndex===replyImgIndex}'>
+		 							<img :src="replyImg">
+		 						</li>
+		 					</ul>
+		 					<div class="eval-big-img" v-show='replyItem.current_img'>
+		 						<img :src="replyItem.current_img">
+		 					</div>
+		 					<div class="eval-msg">
+		 						<div class="time">
+		 							<span>
+			 							{{replyItem.date_add|dateYM}}&nbsp;{{replyItem.date_add|timeHM}}
+			 						</span>
+			 					</div>
 		 					</div>
 	 					</div>
 	 				</dd>
@@ -127,9 +147,14 @@
 						for (let i = 0; i < comment.length; i++) {
 							comment[i].current_img = '';
 							comment[i].currentIndex = '';
+							let child_comment = comment[i].child_commnet;
+							for (let j = 0; j < child_comment.length; j++) {
+								child_comment[j].current_img = '';
+								child_comment[j].currentIndex = '';
+							}
 						}
 						this.commentList = comment;
-						this.totalPage = content.commnet.pageSize;
+						this.totalPage = content.commnet.total_page;
 						this.comments_count = content.commnet.comments_count;
 						this.p = this.comments_count.positive_count/this.comments_count.total_count*100 +'%';
 						this.m = this.comments_count.moderate_count/this.comments_count.total_count*100 +'%';

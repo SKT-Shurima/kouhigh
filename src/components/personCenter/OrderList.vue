@@ -143,21 +143,22 @@ import {errorInfo} from '../../assets/js/check';
 		},
 	    methods: {
 	    	init(){
-	    		let path = this.$router.history.current.path;
+	    		let path = this.$router.history.current.name;
+	    		path = path.substr(0,path.length-1);
 				switch (path){
-					case '/allOrder':
+					case 'allOrder':
 						this.state = 0;
 					break;
-					case '/waitPayFor':
+					case 'waitPayFor':
 						this.state = 1;
 					break;
-					case '/waitSend':
+					case 'waitSend':
 						this.state = 2;
 					break;
-					case '/waitGet':
+					case 'waitGet':
 						this.state = 3;
 					break;
-					case '/waitComment':
+					case 'waitComment':
 						this.state = 4;
 					break;
 				}

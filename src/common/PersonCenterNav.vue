@@ -2,7 +2,7 @@
 	<div class="bg-primary nav-box">
 		<div class="center-box">
 			<div class="mylogo">
-				我的KouHigh
+				<router-link to='/'>我的KouHigh</router-link>
 			</div>
 			<div class="nav-title">
 				<ul class="nav-list">
@@ -61,6 +61,9 @@
 		width: 200px;
 		font-size: 28px;
 		cursor: pointer;
+		a{
+			color: #fff;
+		}
 	}
 	.nav-title{
 		float: left;

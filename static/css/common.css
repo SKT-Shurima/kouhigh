@@ -96,6 +96,10 @@
     width: 1250px;
     margin: 0px auto;
 }
+.no-content{
+    line-height: 30px;
+    font-size: 16px;
+}
 #logo{
     float: left;
     width: 338px;
@@ -153,4 +157,34 @@
     height: 8px;
     margin-right: 10px;
     background-image: url('../../../static/img/common/icon-c-slide.png');
+}
+/* 面包屑导航 */
+.bread-nav{
+    line-height: 41px;
+    font-weight: 400;
+    border-bottom: 1px solid #ccc;
+}
+.bread-nav span{
+    cursor: pointer;
+}
+.bread-nav a{
+    color: #666;
+}
+.bread-nav i{
+    color: #b0b0b0;
+}
+.bread-title{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+/* 个人中心编辑表单框 */
+.person-edit-form{
+    width: 370px;
+    margin-top: 40px;
+    margin-left: 90px;
+}
+.person-edit-form .el-form-item{
+    margin-bottom: 16px;
 }

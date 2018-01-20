@@ -26,7 +26,7 @@
 				</dd>
 			</dl>
 			<!-- 用户信息 -->
-			<v-user-info style='float: right;' :user-info='userInfo' :orderInfo='orderInfo'></v-user-info>
+			<v-user-info style='float: right;' :user-info='userInfo' :orderInfo='orderInfo' :ad='ad'></v-user-info>
 		</div>
 		<div class='center-box ad-box'>
 			<img src="">
@@ -82,7 +82,8 @@
     				name: ''
     			},
     			theme: [],
-    			sliderIndex: 0
+    			sliderIndex: 0,
+    			ad: []
     		}
     	},
     	components:{
@@ -97,6 +98,7 @@
 						this.banner = content.banner;
 						this.activity = content.activity[0];
 						this.theme = content.topic;
+						this.ad = content.ad;
 					}else {
 						errorInfo(errcode,message);
 					}
