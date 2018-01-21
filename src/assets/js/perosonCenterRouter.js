@@ -11,7 +11,9 @@ import myShopping from '../../components/personCenter/MyShopping';
 import footmark from '../../components/personCenter/FootMark';
 import myCounpon from '../../components/personCenter/MyCounpon';
 import shoppingAdvice from '../../components/personCenter/ShoppingAdvice';
-import tenants from '../../components/personCenter/Tenants';
+import money from '../../components/personCenter/Money';
+import recharge from '../../components/personCenter/Recharge';
+import withdraw from '../../components/personCenter/Withdraw';
 import editPortrait from '../../components/personCenter/EditPortrait';
 
 
@@ -77,6 +79,9 @@ export default new Router({
         path: '/userInfo',
         component: userInfo
     },{
+        path: '/editPortrait',
+        component: editPortrait
+    },{
         path: '/colGoods',
         component: colGoods
     },{
@@ -92,11 +97,14 @@ export default new Router({
         path: '/shoppingAdvice',
         component: shoppingAdvice
     },{
-        path: '/tenants',
-        component: tenants
+        path: '/money',
+        component: money
     },{
-        path: '/editPortrait',
-        component: editPortrait
+        path: '/recharge',
+        component: recharge
+    },{
+        path: '/withdraw',
+        component: withdraw
     }
   ]
 })

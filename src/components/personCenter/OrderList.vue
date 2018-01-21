@@ -126,7 +126,7 @@ import {errorInfo} from '../../assets/js/check';
 			return {
 				order: [],
 				page: 1,
-				totalPage: 1 ,
+				totalPage: 1,
 				state: "0" 
 			}
 		},

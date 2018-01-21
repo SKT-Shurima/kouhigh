@@ -26,10 +26,10 @@
 			</div>
 			<div class="shop-info">
 				 <ul>
-				 	<li><router-link to='/baseInfo_waitPayFor'>待付款<i class='bg-primary'>{{orderInfo.wait_pay | num_filter}}</i></router-link></li>
-				 	<li><router-link to='/baseInfo_waitSend'>待发货<i class='bg-primary'>{{orderInfo.wait_send | num_filter}}</i></router-link></li>
-				 	<li><router-link to='/baseInfo_waitGet'>待收货<i class='bg-primary'>{{orderInfo.wait_receive| num_filter}}</i></router-link></li>
-				 	<li><router-link to='/baseInfo_waitComment'>待评价<i class='bg-primary'>{{orderInfo.wait_comment | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitPayFor'>待付款<i class='icon-cir'>{{orderInfo.wait_pay | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitSend'>待发货<i class='icon-cir'>{{orderInfo.wait_send | num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitGet'>待收货<i class='icon-cir'>{{orderInfo.wait_receive| num_filter}}</i></router-link></li>
+				 	<li><router-link to='/baseInfo_waitComment'>待评价<i class='icon-cir'>{{orderInfo.wait_comment | num_filter}}</i></router-link></li>
 				 	<li><router-link to='/baseInfo_afterSale'>退款/售后</router-link></li>
 				 </ul>
 				 <div class="color-6 last-login">
@@ -142,9 +142,6 @@ import vOrderList from '../../components/personCenter/OrderList';
 			border-right: 1px solid #ccc; 
 			i{
 				margin-left: 4px;
-				padding: 0px 4px;
-				border-radius: 8px;
-				color: #fff;
 			}
 		}
 		li:last-child{

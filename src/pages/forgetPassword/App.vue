@@ -145,8 +145,7 @@
 			            postReq('/customer/forgetPwdEmail',params).then(res=>{
 			            	let {errcode,content,message} = res ;
 			            	if (errcode == 0 ) {
-			            		delCookie('token');
-			            		sessionStorage.customer = '';
+			            		delCookie('token');		
 			            		MessageBox.alert('密码修改成功，重新登录', '提示', {
 						          	confirmButtonText: '确定',
 						          	callback: action => {

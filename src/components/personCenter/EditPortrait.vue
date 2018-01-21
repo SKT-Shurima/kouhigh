@@ -68,18 +68,18 @@
     	props:{
     		userInfo: {
     			type: Object,
-    			require: true,
+    			required: true,
     			default: function(){
     				return {}
     			}
     		}
     	},
     	methods: {
-    		getQnToken(){
+    		getqnauth(){
     			postReq('/upload/getUploadToken',{}).then(res=>{
 					let {errcode,content,message} = res ;
 	        		if(errcode == 0){
-						setCookie('qntoken',content.token,2);
+						setCookie('qnauth',content.token,2);
 						setCookie('qndomain',content.domain,2);
 						this.form.token = content.token;
 					}else {
@@ -104,7 +104,7 @@
     		},
     		save(){
 		    	let params = {
-		    		access_token: getCookie('access_token'),
+		    		token: getCookie('token'),
 		    		portrait: this.portrait
 		    	}
 		    	postReq('/customer/changePortrait',params).then(res=>{
@@ -119,10 +119,10 @@
     	},
     	created(){
         	this.$nextTick(()=>{
-        		this.form.token = getCookie('qntoken');
+        		this.form.token = getCookie('qnauth');
         		this.domain = getCookie('qndomain');
         		if (!this.form.token||!this.domain) {
-        			this.getQnToken();
+        			this.getqnauth();
         		}
         	})
     	}

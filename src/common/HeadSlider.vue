@@ -61,6 +61,7 @@
 </template>
 <script type="text/javascript">
 	import {postReq} from '../assets/js/api';
+	import {errorInfo} from '../assets/js/check';
 	export default {
 		data(){
 			return{
@@ -99,7 +100,7 @@
 				})
 			}
 		},
-		mounted(){
+		created(){
 			this.$nextTick(()=>{
 				let token = getCookie('token');
 				if (token) {

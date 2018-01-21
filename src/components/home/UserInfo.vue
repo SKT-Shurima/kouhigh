@@ -45,19 +45,19 @@
 					<el-row class='order-menu'>
 						<el-col :span='6' >
 						    <a href=''>待付款</a>
-							<i class="bg-primary">{{orderInfo.wait_pay | num_filter}}</i>
+							<i class="icon-cir">{{orderInfo.wait_pay | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待发货</a>
-							<i class="bg-primary">{{orderInfo.wait_send | num_filter}}</i>
+							<i class="icon-cir">{{orderInfo.wait_send | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待收货</a>
-							<i class="bg-primary">{{orderInfo.wait_receive | num_filter}}</i>
+							<i class="icon-cir">{{orderInfo.wait_receive | num_filter}}</i>
 						</el-col>
 						<el-col :span='6'>
 							<a href=''>待评价</a>
-							<i class="bg-primary">{{orderInfo.wait_comment | num_filter}}</i>
+							<i class="icon-cir">{{orderInfo.wait_comment | num_filter}}</i>
 						</el-col>
 					</el-row>
 				</el-row>
@@ -69,13 +69,13 @@
 					<img src="../../../static/img/index/message.png" height="16" width="16">
 					优惠快讯
 				</span>
-				<a href=''>
+				<a href='infoList.html'>
 					更多<img src="../../../static/img/common/left.png" height="10" width="5" alt="">
 				</a>
 			</div>
 			<ul class="msg-list">
 				<li class='ellipsis-1' v-for='(item,index) in ad' :key='index'>
-					<a href="" class='color-6' v-text='item.name'></a>
+					<a :href="`infomation.html?ad_id=${item.ad_id}`" class='color-6' v-text='item.name'></a>
 				</li>
 			</ul>
 		</div>
@@ -168,19 +168,8 @@
 		.el-col-6{
 			cursor: pointer;
 		}
-		a{
+		a,i{
 			float: left;
-		}
-		i{
-			float: left;
-			height: 12px;
-			line-height: 12px;
-			padding: 0px 3px;
-			border-radius: 6px;
-			margin-top: 2px;
-			text-align: center;
-			color: #fff;
-			background-color: #ffa4a3;
 		}
 	}
 	.msg-list{

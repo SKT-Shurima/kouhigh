@@ -66,7 +66,7 @@
     	props:{
     		userInfo: {
     			type: Object,
-    			require: true,
+    			required: true,
     			default: function(){
     				return {}
     			}
@@ -75,13 +75,17 @@
     	watch:{
     		userInfo: {
     			handler(newVal,oldVal){
-    				this.nickname = newVal.nickname;
-    				this.birthday = newVal.birthday*1000;
-    				this.sex = newVal.sex;
-    			}
+    				this.initInfo();
+    			},
+    			deep: true
     		}
     	},
     	methods: {
+    		initInfo(){
+    			this.nickname = this.userInfo.nickname;
+				this.birthday = this.userInfo.birthday*1000;
+				this.sex = this.userInfo.sex;
+    		},
     		changBirthday(){
 	 			let birthday = this.birthday;
 	 			if (typeof birthday === 'object') {
@@ -133,6 +137,7 @@
     	},
     	created(){
         	this.$nextTick(()=>{
+        		this.initInfo();
         	})
     	}
   	}

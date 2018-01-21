@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<h4 class='bread-nav'><router-link to='/'>我的KouHigh</router-link>&nbsp;<i>&gt;</i>&nbsp;<router-link to=''>收货地址管理</router-link></h4>
+		<h4 class='bread-nav'><router-link to='/'>我的KouHigh</router-link>&nbsp;<i>&gt;</i>&nbsp;<router-link to='/editAddress'>收货地址管理</router-link></h4>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position='right' class='person-edit-form'>
 			<div>
 				<div class="color-primary bread-title">新增收货地址</div>

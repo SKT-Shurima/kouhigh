@@ -28,6 +28,9 @@
 .bg-f9{
     background-color: #f9f9f9;
 }
+.bg-c{
+    background-color: #ccc;
+}
 .bg-e{
     background-color: #eee;
 }
@@ -158,6 +161,24 @@
     margin-right: 10px;
     background-image: url('../../../static/img/common/icon-c-slide.png');
 }
+.icon-square{
+    display: inline-block;
+    width: 8px;
+    height: 20px;
+    margin-right: 10px;
+    background-color: #ffa4a3;
+}
+.icon-cir{
+    display: inline-block;
+    height: 12px;
+    line-height: 11px;
+    padding: 1px 3px;
+    border-radius: 6px;
+    margin: 2px 0px 0px 4px;
+    text-align: center;
+    color: #fff;
+    background-color: #ffa4a3;
+}
 /* 面包屑导航 */
 .bread-nav{
     line-height: 41px;
@@ -187,4 +208,18 @@
 }
 .person-edit-form .el-form-item{
     margin-bottom: 16px;
+}
+/* upload-box */
+.upload-box .el-upload{
+    text-align: left;
+}
+/* 个人中心账户title */
+.person-account-title{
+    height: 40px;
+    padding: 10px;
+    line-height: 20px;
+}
+.person-account-title span{
+    font-size: 16px;
+    font-weight: 600;
 }

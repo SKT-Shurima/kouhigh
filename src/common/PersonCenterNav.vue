@@ -8,14 +8,12 @@
 				<ul class="nav-list">
 					<li><a href="index.html">KouHigh首页</a></li>
 					<li>
-						<div @mouseenter='accountListBol=true' @mouseleave='accountListBol=false'>账户安全</div>
+						<div @mouseenter='accountListBol=true' @mouseleave='accountListBol=false;'>账户安全</div>
 						<ul class='bg-primary account-options' v-show='accountListBol' @mouseleave='accountListBol=false' @mouseenter='accountListBol=true'>
-							<li>修改密码</li>
-							<li>手机绑定</li>
-							<li>邮箱绑定</li>
+							<li><a href="myAccount.html" class="account-link">修改密码</a></li>
 						</ul>
 					</li>
-					<li>消息</li>
+					<li><a href="myAccount.html#/message">消息<i class="icon-cir" v-text='message_count' v-if="message_count-0" style="margin-left: 6px;"></i></a></li>
 				</ul>
 			</div>
 			<div class="search-box">
@@ -27,11 +25,14 @@
 </template>
 <script type="text/javascript">
 	import {MessageBox} from  'element-ui'
+	import {postReq} from '../assets/js/api';
+	import {errorInfo} from '../assets/js/check';
 	export default {
 		data(){
 			return{
 				accountListBol: false,
-				searchInput: ''
+				searchInput: '',
+				message_count: ""
 			}
 		},
 		methods:{
@@ -45,7 +46,22 @@
 			          	confirmButtonText: '确定'
 				    });
 	    		}
-	    	},
+	    	}
+		},
+		created(){
+			this.$nextTick(()=>{
+				let params = {
+					token: getCookie('token')
+				}
+				postReq('/message/getUnreadMessageCount',params).then(res=>{
+					let {errcode,content,message} = res ;
+		      		if (errcode == 0) {
+		      			this.message_count = content.message_count;
+		      		} else {
+		      			errorInfo(errorInfo,message);
+		      		}
+				})
+			})
 		}
 	}
 </script>
@@ -79,9 +95,14 @@
 			width: 120px;
 			text-align: center;
 			color: #fff;
-			a{
-				color: #fff;
-			}
+		}
+		a{
+			display: inline-block;
+			width: 100%;
+			color: #fff;
+		}
+		.account-link:hover{
+			color: #ffa4a3;
 		}
 	}
 	.account-options{

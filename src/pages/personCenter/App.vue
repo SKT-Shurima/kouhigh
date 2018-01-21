@@ -17,7 +17,7 @@
 				</div>
 				<ul>
 					<li class='color-6' v-for='(item,index) in  vipList'>
-						<router-link :to='item.link'>
+						<router-link :to='item.link' :class="{'router-link-active':vipIndex===index}">
 							<i></i>{{item.name}}
 						</router-link>
 					</li>
@@ -78,13 +78,33 @@
     				link: 'shoppingAdvice'
     			},{
     				name: '资金管理',
-    				link: 'tenants'
-    			}]
+    				link: 'money'
+    			}],
+    			vipIndex: ""
     		}
     	},
     	components:{
     		vHeadSlider,vPersonCenterNav,vFooter
     	},
+    	watch: {
+		  	'$route' (to, from) {
+		   		let path = to.path.slice(1);
+		   		switch (path){
+		   			case 'editPortrait': 
+		   				this.vipIndex = 0;
+		   			break;
+		   			case 'recharge': 
+		   				this.vipIndex = 6;
+		   			break;
+		   			case 'withdraw': 
+		   				this.vipIndex = 6;
+		   			break;
+		   			default :
+		   				this.vipIndex = "";
+		   			break;
+		   		}
+		  	}	
+		},
     	mixins: [userMixin],
     	created(){
     		this.$nextTick(()=>{

@@ -34,6 +34,15 @@ export const dateymd = time =>{
     d = trans(d);
     return `${y}-${m}-${d}` ;
 }
+export const dateymdPoint = time =>{
+    time *= 1000 
+    var newDate = new Date(time);
+    let {y,m,d}={y:newDate.getFullYear(),m:newDate.getMonth()+1,d:newDate.getDate()};
+    y = trans(y);
+    m = trans(m);
+    d = trans(d);
+    return `${y}.${m}.${d}` ;
+}
 // 时分秒
 export const timeHMS = time =>{
     time *= 1000
@@ -79,6 +88,22 @@ export const bank_filter = val =>{
     val += '';
     val = val.replace(/(\s)/g,'').replace(/(\d{4})/g,'$1 ').replace(/\s*$/,'');
     return val;
+}
+// 时间转换
+export const time_filter  = time =>{
+        time-=0;
+        let difTime = new Date().getTime() - time ;
+        let {h,m} = {h:parseInt(difTime/(3600*1000)),m:parseInt(difTime/(60*1000))}; 
+        let msg = "" ;
+        if (h<1) {
+          msg =  `${m}分钟前`;
+        }else if(h>=1&&h<=24){
+          msg = `${h}小时前`;
+        }else if(h>24){
+            h = parseInt(h/24)
+            msg =`${h}天前`;
+        }
+        return msg ;
 }
 export const trans =  (val)=>{
     if (val < 10) {
